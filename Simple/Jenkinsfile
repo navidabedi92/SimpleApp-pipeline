@@ -1,10 +1,14 @@
 pipeline {
     agent any
 
+    environment{
+        name="navid"
+    }
     stages {
         stage('Build') {
             steps {
                 sh 'dotnet build'
+                sh 'echo ${name}'
             }
         }
     }
