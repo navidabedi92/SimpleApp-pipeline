@@ -1,0 +1,44 @@
+pipeline {
+    agent any
+
+    stages {
+
+        stage('Build') {
+            steps {
+                echo 'Building...'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                script {
+                    def testExitCode = sh(
+                        script: 'dotnet test',
+                        returnStatus: true
+                    )
+
+                    // store result globally
+                    env.TEST_OK = (testExitCode == 0).toString()
+                }
+            }
+        }
+
+        stage('Deploy') {
+            when {
+                expression { env.TEST_OK == "true" }
+            }
+            steps {
+                echo 'Deploying because tests passed'
+            }
+        }
+
+        stage('Notify Failure') {
+            when {
+                expression { env.TEST_OK == "false" }
+            }
+            steps {
+                echo 'Tests failed, sending notification'
+            }
+        }
+    }
+}
