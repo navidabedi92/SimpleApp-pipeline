@@ -16,7 +16,7 @@ pipeline {
         stage('Checkout App Code') {
             steps {
                 dir('app') {
-                    git url: 'https://github.com/navidabedi92/SimpleApp.git', branch: 'main'
+                    git url: 'https://github.com/navidabedi92/SimpleApp.git', branch: 'master'
                 }
             }
         }
