@@ -1,0 +1,26 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Build') {
+            steps {
+                sh 'dotnet build'
+            }
+        }
+    }
+
+    post {
+
+        success {
+            echo 'Build Succeeded'
+        }
+
+        failure {
+            echo 'Build Failed'
+        }
+
+        always {
+            echo 'Cleanup'
+        }
+    }
+}
